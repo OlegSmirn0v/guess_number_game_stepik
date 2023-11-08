@@ -3,10 +3,10 @@ from random import randint
 print('Welcome to "The guess the number game!"')
 
 
-def is_valid(num):
+def is_valid(num, counter):
     while True:
         if num == 'q':
-            exit_game()
+            exit_game(counter)
         elif num.isdigit() is False or int(num) <= 0:
             print(
                 f'Not number or lower than zero. Try again or press "q" to quit game.')
@@ -28,25 +28,21 @@ def create_random_number(border):
     return random_number
 
 
-def exit_game():
+def exit_game(counter):
     print(f'Number of attempts: {counter}')
     print('Bye')
     exit()
 
 
-counter = 0
-
-
 def game():
-    global counter
     counter = 0
     border_num = input('Enter right border number or "q" to quit game: ')
-    border_num = is_valid(border_num)
+    border_num = is_valid(border_num, counter)
     riddle = randint(1, border_num)
     # print(riddle)
     while True:
         guess_num = is_valid(
-            input(f'Take a guess between one and {border_num} '))
+            input(f'Take a guess between one and {border_num} '), counter)
         counter += 1
         check = check_guess(guess_num, riddle)
         if check is True:
@@ -55,7 +51,7 @@ def game():
             if ask.lower() == 'y':
                 game()
             else:
-                exit_game()
+                exit_game(counter)
         else:
             print(check)
 
